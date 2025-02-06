@@ -3,26 +3,11 @@ import { useState } from "react";
 import QRCodeGenerator from "@/components/QRCodeGenerator";
 import URLShortener from "@/components/URLShortener";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Flag } from "lucide-react";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<"qr" | "url">("qr");
   const [language, setLanguage] = useState("en");
-
-  const languages = {
-    pt: "Português",
-    en: "English",
-    es: "Español",
-    ru: "Русский",
-    zh: "中文",
-    fr: "Français"
-  };
 
   const translations = {
     pt: {
@@ -63,41 +48,20 @@ const Index = () => {
     }
   };
 
-  const getFlagEmoji = (lang: string) => {
-    const flags = {
-      pt: "🇧🇷",
-      en: "🇺🇸",
-      es: "🇪🇸",
-      ru: "🇷🇺",
-      zh: "🇨🇳",
-      fr: "🇫🇷"
-    };
-    return flags[lang as keyof typeof flags];
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage);
+    document.documentElement.lang = newLanguage;
   };
+
+  const t = translations[language as keyof typeof translations];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 relative">
       <div className="absolute top-4 right-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="w-auto px-3 flex gap-2">
-              <Flag className="h-4 w-4" />
-              <span className="mr-1">{getFlagEmoji(language)}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
-            {Object.entries(languages).map(([code, name]) => (
-              <DropdownMenuItem
-                key={code}
-                onClick={() => setLanguage(code)}
-                className="flex gap-2"
-              >
-                <span>{getFlagEmoji(code)}</span>
-                {name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <LanguageSelector
+          currentLanguage={language}
+          onLanguageChange={handleLanguageChange}
+        />
       </div>
 
       <div className="max-w-4xl mx-auto space-y-8">
@@ -107,10 +71,10 @@ const Index = () => {
           className="text-center space-y-4"
         >
           <h1 className="text-4xl font-bold text-gray-900">
-            {translations[language as keyof typeof translations].title}
+            {t.title}
           </h1>
           <p className="text-gray-600">
-            {translations[language as keyof typeof translations].subtitle}
+            {t.subtitle}
           </p>
         </motion.div>
 
@@ -120,14 +84,14 @@ const Index = () => {
             onClick={() => setActiveTab("qr")}
             className="w-40"
           >
-            {translations[language as keyof typeof translations].qrTab}
+            {t.qrTab}
           </Button>
           <Button
             variant={activeTab === "url" ? "default" : "secondary"}
             onClick={() => setActiveTab("url")}
             className="w-40"
           >
-            {translations[language as keyof typeof translations].urlTab}
+            {t.urlTab}
           </Button>
         </div>
 
