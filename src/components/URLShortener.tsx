@@ -12,10 +12,18 @@ const URLShortener = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  const formatUrl = (inputUrl: string) => {
+    if (!inputUrl.startsWith('http://') && !inputUrl.startsWith('https://')) {
+      return `https://${inputUrl}`;
+    }
+    return inputUrl;
+  };
+
   const shortenUrl = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${url}`);
+      const formattedUrl = formatUrl(url);
+      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(formattedUrl)}`);
       const data = await response.json();
       if (data.ok) {
         setShortUrl(data.result.full_short_link);
