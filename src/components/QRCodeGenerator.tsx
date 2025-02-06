@@ -29,7 +29,8 @@ const translations = {
     qrColor: "Cor do QR Code",
     download: "Baixar QR Code",
     success: "Sucesso",
-    downloaded: "QR code baixado com sucesso!"
+    downloaded: "QR code baixado com sucesso!",
+    noSecurity: "Sem Segurança"
   },
   en: {
     qrType: "QR Code Type",
@@ -45,7 +46,8 @@ const translations = {
     qrColor: "QR Code Color",
     download: "Download QR Code",
     success: "Success",
-    downloaded: "QR code downloaded successfully!"
+    downloaded: "QR code downloaded successfully!",
+    noSecurity: "No Security"
   },
   es: {
     qrType: "Tipo de Código QR",
@@ -61,7 +63,8 @@ const translations = {
     qrColor: "Color del Código QR",
     download: "Descargar Código QR",
     success: "Éxito",
-    downloaded: "¡Código QR descargado con éxito!"
+    downloaded: "¡Código QR descargado con éxito!",
+    noSecurity: "Sin Seguridad"
   },
   ru: {
     qrType: "Тип QR-кода",
@@ -77,7 +80,8 @@ const translations = {
     qrColor: "Цвет QR-кода",
     download: "Скачать QR-код",
     success: "Успех",
-    downloaded: "QR-код успешно скачан!"
+    downloaded: "QR-код успешно скачан!",
+    noSecurity: "Без защиты"
   },
   zh: {
     qrType: "二维码类型",
@@ -93,7 +97,8 @@ const translations = {
     qrColor: "二维码颜色",
     download: "下载二维码",
     success: "成功",
-    downloaded: "二维码下载成功！"
+    downloaded: "二维码下载成功！",
+    noSecurity: "无安全性"
   },
   fr: {
     qrType: "Type de Code QR",
@@ -109,7 +114,8 @@ const translations = {
     qrColor: "Couleur du Code QR",
     download: "Télécharger le Code QR",
     success: "Succès",
-    downloaded: "Code QR téléchargé avec succès !"
+    downloaded: "Code QR téléchargé avec succès !",
+    noSecurity: "Sans Sécurité"
   }
 };
 
