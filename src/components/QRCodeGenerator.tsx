@@ -1,5 +1,5 @@
 import { useState } from "react";
-import QRCode from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +47,7 @@ const QRCodeGenerator = () => {
             className="w-full h-10"
           />
           <div className="flex justify-center p-4 bg-white rounded-lg">
-            <QRCode
+            <QRCodeSVG
               value={text || "https://example.com"}
               size={200}
               fgColor={qrColor}
