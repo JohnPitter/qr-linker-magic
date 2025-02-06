@@ -18,7 +18,10 @@ const Index = () => {
   const languages = {
     pt: "Português",
     en: "English",
-    es: "Español"
+    es: "Español",
+    ru: "Русский",
+    zh: "中文",
+    fr: "Français"
   };
 
   const translations = {
@@ -39,6 +42,24 @@ const Index = () => {
       subtitle: "Genera códigos QR y acorta URLs fácilmente",
       qrTab: "Código QR",
       urlTab: "Acortador de URL"
+    },
+    ru: {
+      title: "QR-код и сокращение URL",
+      subtitle: "Создавайте QR-коды и сокращайте URL легко",
+      qrTab: "QR-код",
+      urlTab: "Сокращение URL"
+    },
+    zh: {
+      title: "二维码生成器和网址缩短器",
+      subtitle: "轻松生成二维码和缩短网址",
+      qrTab: "二维码",
+      urlTab: "网址缩短"
+    },
+    fr: {
+      title: "Générateur de QR Code & Raccourcisseur d'URL",
+      subtitle: "Générez des QR codes et raccourcissez des URLs facilement",
+      qrTab: "Code QR",
+      urlTab: "Raccourcisseur d'URL"
     }
   };
 
@@ -46,7 +67,10 @@ const Index = () => {
     const flags = {
       pt: "🇧🇷",
       en: "🇺🇸",
-      es: "🇪🇸"
+      es: "🇪🇸",
+      ru: "🇷🇺",
+      zh: "🇨🇳",
+      fr: "🇫🇷"
     };
     return flags[lang as keyof typeof flags];
   };
@@ -62,18 +86,16 @@ const Index = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-white">
-            <DropdownMenuItem onClick={() => setLanguage("pt")} className="flex gap-2">
-              <span>{getFlagEmoji("pt")}</span>
-              {languages.pt}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage("en")} className="flex gap-2">
-              <span>{getFlagEmoji("en")}</span>
-              {languages.en}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage("es")} className="flex gap-2">
-              <span>{getFlagEmoji("es")}</span>
-              {languages.es}
-            </DropdownMenuItem>
+            {Object.entries(languages).map(([code, name]) => (
+              <DropdownMenuItem
+                key={code}
+                onClick={() => setLanguage(code)}
+                className="flex gap-2"
+              >
+                <span>{getFlagEmoji(code)}</span>
+                {name}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
