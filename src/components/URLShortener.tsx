@@ -4,7 +4,7 @@ import copy from "copy-to-clipboard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const URLShortener = () => {
   const [url, setUrl] = useState("");
@@ -23,21 +23,36 @@ const URLShortener = () => {
     setIsLoading(true);
     try {
       const formattedUrl = formatUrl(url);
-      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(formattedUrl)}`);
+      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(formattedUrl)}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('URL shortening service is temporarily unavailable');
+      }
+      
       const data = await response.json();
       if (data.ok) {
         setShortUrl(data.result.full_short_link);
+        toast({
+          title: "Success",
+          description: "URL shortened successfully!",
+        });
       } else {
         toast({
           title: "Error",
-          description: "Please enter a valid URL",
+          description: data.error || "Please enter a valid URL",
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error('URL shortening error:', error);
       toast({
-        title: "Error",
-        description: "Failed to shorten URL",
+        title: "Service Unavailable",
+        description: "The URL shortening service is currently unavailable. Please try again later.",
         variant: "destructive",
       });
     }
