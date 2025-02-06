@@ -237,7 +237,7 @@ const QRCodeGenerator = () => {
                   <SelectContent>
                     <SelectItem value="WPA">WPA/WPA2</SelectItem>
                     <SelectItem value="WEP">WEP</SelectItem>
-                    <SelectItem value="nopass">{t.noPassword}</SelectItem>
+                    <SelectItem value="nopass">{t.noSecurity}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
