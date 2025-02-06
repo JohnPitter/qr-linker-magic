@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe } from "lucide-react";
+import { Flag } from "lucide-react";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<"qr" | "url">("qr");
@@ -21,23 +21,57 @@ const Index = () => {
     es: "Español"
   };
 
+  const translations = {
+    pt: {
+      title: "Gerador de QR Code & Encurtador de URL",
+      subtitle: "Gere códigos QR e encurte URLs facilmente",
+      qrTab: "Código QR",
+      urlTab: "Encurtador de URL"
+    },
+    en: {
+      title: "QR Code & URL Shortener",
+      subtitle: "Generate QR codes and shorten URLs with ease",
+      qrTab: "QR Code",
+      urlTab: "URL Shortener"
+    },
+    es: {
+      title: "Generador de QR & Acortador de URL",
+      subtitle: "Genera códigos QR y acorta URLs fácilmente",
+      qrTab: "Código QR",
+      urlTab: "Acortador de URL"
+    }
+  };
+
+  const getFlagEmoji = (lang: string) => {
+    const flags = {
+      pt: "🇧🇷",
+      en: "🇺🇸",
+      es: "🇪🇸"
+    };
+    return flags[lang as keyof typeof flags];
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 relative">
       <div className="absolute top-4 right-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Globe className="h-4 w-4" />
+            <Button variant="outline" size="icon" className="w-auto px-3 flex gap-2">
+              <Flag className="h-4 w-4" />
+              <span className="mr-1">{getFlagEmoji(language)}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-white">
-            <DropdownMenuItem onClick={() => setLanguage("pt")}>
+            <DropdownMenuItem onClick={() => setLanguage("pt")} className="flex gap-2">
+              <span>{getFlagEmoji("pt")}</span>
               {languages.pt}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage("en")}>
+            <DropdownMenuItem onClick={() => setLanguage("en")} className="flex gap-2">
+              <span>{getFlagEmoji("en")}</span>
               {languages.en}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage("es")}>
+            <DropdownMenuItem onClick={() => setLanguage("es")} className="flex gap-2">
+              <span>{getFlagEmoji("es")}</span>
               {languages.es}
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -51,10 +85,10 @@ const Index = () => {
           className="text-center space-y-4"
         >
           <h1 className="text-4xl font-bold text-gray-900">
-            QR Code & URL Shortener
+            {translations[language as keyof typeof translations].title}
           </h1>
           <p className="text-gray-600">
-            Generate QR codes and shorten URLs with ease
+            {translations[language as keyof typeof translations].subtitle}
           </p>
         </motion.div>
 
@@ -64,14 +98,14 @@ const Index = () => {
             onClick={() => setActiveTab("qr")}
             className="w-40"
           >
-            QR Code
+            {translations[language as keyof typeof translations].qrTab}
           </Button>
           <Button
             variant={activeTab === "url" ? "default" : "secondary"}
             onClick={() => setActiveTab("url")}
             className="w-40"
           >
-            URL Shortener
+            {translations[language as keyof typeof translations].urlTab}
           </Button>
         </div>
 
