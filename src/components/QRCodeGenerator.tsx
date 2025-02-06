@@ -17,18 +17,26 @@ import WifiForm from "./WifiForm";
 import QRCodeDisplay from "./QRCodeDisplay";
 
 const QRCodeGenerator = () => {
-  const [text, setText] = useState("");
+  const [formData, setFormData] = useState({
+    text: {
+      value: "",
+    },
+    wifi: {
+      ssid: "",
+      password: "",
+      encryption: "WPA",
+    },
+  });
+  
   const [qrColor, setQrColor] = useState("#000000");
   const [qrType, setQrType] = useState<"text" | "wifi">("text");
-  const [ssid, setSsid] = useState("");
-  const [password, setPassword] = useState("");
-  const [encryption, setEncryption] = useState("WPA");
   const qrRef = useRef<SVGSVGElement>(null);
   const { toast } = useToast();
   const language = document.documentElement.lang || "en";
   const t = translations[language as keyof typeof translations];
 
   const generateWifiQRCode = () => {
+    const { ssid, password, encryption } = formData.wifi;
     const wifiString = `WIFI:T:${encryption};S:${ssid};P:${password};;`;
     return wifiString;
   };
@@ -37,7 +45,7 @@ const QRCodeGenerator = () => {
     if (qrType === "wifi") {
       return generateWifiQRCode();
     }
-    return text || "https://example.com";
+    return formData.text.value || "https://example.com";
   };
 
   const downloadQRCode = () => {
@@ -67,6 +75,23 @@ const QRCodeGenerator = () => {
     };
 
     img.src = "data:image/svg+xml;base64," + btoa(svgData);
+  };
+
+  const handleTextChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      text: { value }
+    }));
+  };
+
+  const handleWifiChange = (field: keyof typeof formData.wifi, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      wifi: {
+        ...prev.wifi,
+        [field]: value
+      }
+    }));
   };
 
   return (
@@ -99,20 +124,20 @@ const QRCodeGenerator = () => {
               <Label>{t.textOrUrl}</Label>
               <Input
                 type="text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                value={formData.text.value}
+                onChange={(e) => handleTextChange(e.target.value)}
                 placeholder={t.enterTextUrl}
                 className="w-full"
               />
             </div>
           ) : (
             <WifiForm
-              ssid={ssid}
-              setSsid={setSsid}
-              password={password}
-              setPassword={setPassword}
-              encryption={encryption}
-              setEncryption={setEncryption}
+              ssid={formData.wifi.ssid}
+              setSsid={(value) => handleWifiChange('ssid', value)}
+              password={formData.wifi.password}
+              setPassword={(value) => handleWifiChange('password', value)}
+              encryption={formData.wifi.encryption}
+              setEncryption={(value) => handleWifiChange('encryption', value)}
               t={t}
             />
           )}
@@ -132,7 +157,7 @@ const QRCodeGenerator = () => {
             value={getQRValue()}
             color={qrColor}
             onDownload={downloadQRCode}
-            disabled={qrType === "text" ? !text : !ssid}
+            disabled={qrType === "text" ? !formData.text.value : !formData.wifi.ssid}
             t={t}
           />
         </div>
