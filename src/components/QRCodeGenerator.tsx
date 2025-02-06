@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { QRCode } from "qrcode.react";
+import QRCode from "qrcode.react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
