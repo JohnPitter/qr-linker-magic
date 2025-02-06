@@ -14,6 +14,105 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const translations = {
+  pt: {
+    qrType: "Tipo de QR Code",
+    textUrl: "Texto/URL",
+    wifi: "Rede WiFi",
+    textOrUrl: "Texto ou URL",
+    enterTextUrl: "Digite texto ou URL",
+    networkName: "Nome da Rede (SSID)",
+    enterWifiName: "Digite o nome da rede WiFi",
+    password: "Senha",
+    enterPassword: "Digite a senha do WiFi",
+    securityType: "Tipo de Segurança",
+    qrColor: "Cor do QR Code",
+    download: "Baixar QR Code",
+    success: "Sucesso",
+    downloaded: "QR code baixado com sucesso!"
+  },
+  en: {
+    qrType: "QR Code Type",
+    textUrl: "Text/URL",
+    wifi: "WiFi Network",
+    textOrUrl: "Text or URL",
+    enterTextUrl: "Enter text or URL",
+    networkName: "Network Name (SSID)",
+    enterWifiName: "Enter WiFi network name",
+    password: "Password",
+    enterPassword: "Enter WiFi password",
+    securityType: "Security Type",
+    qrColor: "QR Code Color",
+    download: "Download QR Code",
+    success: "Success",
+    downloaded: "QR code downloaded successfully!"
+  },
+  es: {
+    qrType: "Tipo de Código QR",
+    textUrl: "Texto/URL",
+    wifi: "Red WiFi",
+    textOrUrl: "Texto o URL",
+    enterTextUrl: "Ingrese texto o URL",
+    networkName: "Nombre de Red (SSID)",
+    enterWifiName: "Ingrese nombre de red WiFi",
+    password: "Contraseña",
+    enterPassword: "Ingrese contraseña WiFi",
+    securityType: "Tipo de Seguridad",
+    qrColor: "Color del Código QR",
+    download: "Descargar Código QR",
+    success: "Éxito",
+    downloaded: "¡Código QR descargado con éxito!"
+  },
+  ru: {
+    qrType: "Тип QR-кода",
+    textUrl: "Текст/URL",
+    wifi: "Сеть WiFi",
+    textOrUrl: "Текст или URL",
+    enterTextUrl: "Введите текст или URL",
+    networkName: "Имя сети (SSID)",
+    enterWifiName: "Введите имя сети WiFi",
+    password: "Пароль",
+    enterPassword: "Введите пароль WiFi",
+    securityType: "Тип безопасности",
+    qrColor: "Цвет QR-кода",
+    download: "Скачать QR-код",
+    success: "Успех",
+    downloaded: "QR-код успешно скачан!"
+  },
+  zh: {
+    qrType: "二维码类型",
+    textUrl: "文本/网址",
+    wifi: "WiFi网络",
+    textOrUrl: "文本或网址",
+    enterTextUrl: "输入文本或网址",
+    networkName: "网络名称 (SSID)",
+    enterWifiName: "输入WiFi网络名称",
+    password: "密码",
+    enterPassword: "输入WiFi密码",
+    securityType: "安全类型",
+    qrColor: "二维码颜色",
+    download: "下载二维码",
+    success: "成功",
+    downloaded: "二维码下载成功！"
+  },
+  fr: {
+    qrType: "Type de Code QR",
+    textUrl: "Texte/URL",
+    wifi: "Réseau WiFi",
+    textOrUrl: "Texte ou URL",
+    enterTextUrl: "Entrez le texte ou l'URL",
+    networkName: "Nom du Réseau (SSID)",
+    enterWifiName: "Entrez le nom du réseau WiFi",
+    password: "Mot de passe",
+    enterPassword: "Entrez le mot de passe WiFi",
+    securityType: "Type de Sécurité",
+    qrColor: "Couleur du Code QR",
+    download: "Télécharger le Code QR",
+    success: "Succès",
+    downloaded: "Code QR téléchargé avec succès !"
+  }
+};
+
 const QRCodeGenerator = () => {
   const [text, setText] = useState("");
   const [qrColor, setQrColor] = useState("#000000");
@@ -23,6 +122,8 @@ const QRCodeGenerator = () => {
   const [encryption, setEncryption] = useState("WPA");
   const qrRef = useRef<SVGSVGElement>(null);
   const { toast } = useToast();
+  const language = document.documentElement.lang || "en";
+  const t = translations[language as keyof typeof translations];
 
   const generateWifiQRCode = () => {
     const wifiString = `WIFI:T:${encryption};S:${ssid};P:${password};;`;
@@ -57,8 +158,8 @@ const QRCodeGenerator = () => {
       downloadLink.click();
 
       toast({
-        title: "Success",
-        description: "QR code downloaded successfully!",
+        title: t.success,
+        description: t.downloaded,
       });
     };
 
@@ -75,62 +176,62 @@ const QRCodeGenerator = () => {
       <Card className="p-6 backdrop-blur-sm bg-white/80 shadow-lg">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>QR Code Type</Label>
+            <Label>{t.qrType}</Label>
             <Select
               value={qrType}
               onValueChange={(value: "text" | "wifi") => setQrType(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select QR code type" />
+                <SelectValue placeholder={t.qrType} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="text">Text/URL</SelectItem>
-                <SelectItem value="wifi">WiFi Network</SelectItem>
+                <SelectItem value="text">{t.textUrl}</SelectItem>
+                <SelectItem value="wifi">{t.wifi}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {qrType === "text" ? (
             <div className="space-y-2">
-              <Label>Text or URL</Label>
+              <Label>{t.textOrUrl}</Label>
               <Input
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Enter text or URL"
+                placeholder={t.enterTextUrl}
                 className="w-full"
               />
             </div>
           ) : (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Network Name (SSID)</Label>
+                <Label>{t.networkName}</Label>
                 <Input
                   type="text"
                   value={ssid}
                   onChange={(e) => setSsid(e.target.value)}
-                  placeholder="Enter WiFi network name"
+                  placeholder={t.enterWifiName}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Password</Label>
+                <Label>{t.password}</Label>
                 <Input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter WiFi password"
+                  placeholder={t.enterPassword}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Security Type</Label>
+                <Label>{t.securityType}</Label>
                 <Select value={encryption} onValueChange={setEncryption}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select security type" />
+                    <SelectValue placeholder={t.securityType} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="WPA">WPA/WPA2</SelectItem>
                     <SelectItem value="WEP">WEP</SelectItem>
-                    <SelectItem value="nopass">No Password</SelectItem>
+                    <SelectItem value="nopass">{t.noPassword}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -138,7 +239,7 @@ const QRCodeGenerator = () => {
           )}
 
           <div className="space-y-2">
-            <Label>QR Code Color</Label>
+            <Label>{t.qrColor}</Label>
             <Input
               type="color"
               value={qrColor}
@@ -163,7 +264,7 @@ const QRCodeGenerator = () => {
             className="w-full"
             disabled={qrType === "text" ? !text : !ssid}
           >
-            Download QR Code
+            {t.download}
           </Button>
         </div>
       </Card>
