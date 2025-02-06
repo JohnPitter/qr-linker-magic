@@ -94,6 +94,19 @@ const QRCodeGenerator = () => {
     }));
   };
 
+  const handleQRTypeChange = (value: "text" | "wifi") => {
+    setQrType(value);
+    // Reset form data when changing QR type
+    setFormData({
+      text: { value: "" },
+      wifi: {
+        ssid: "",
+        password: "",
+        encryption: "WPA",
+      },
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -107,7 +120,7 @@ const QRCodeGenerator = () => {
             <Label>{t.qrType}</Label>
             <Select
               value={qrType}
-              onValueChange={(value: "text" | "wifi") => setQrType(value)}
+              onValueChange={handleQRTypeChange}
             >
               <SelectTrigger>
                 <SelectValue placeholder={t.qrType} />
